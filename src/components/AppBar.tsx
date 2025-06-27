@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import MovieIcon from "@mui/icons-material/Movie";
 import { Link as RouterLink } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const AppBar = () => {
   return (
@@ -32,7 +33,6 @@ const AppBar = () => {
             Cageflix
           </Typography>
         </RouterLink>
-        <Box sx={{ flexGrow: 1 }} />
         <Button
           component={RouterLink}
           to="/"
@@ -41,6 +41,8 @@ const AppBar = () => {
         >
           Home
         </Button>
+        <Box sx={{ flexGrow: 1 }} />
+        <SearchBar />
       </Toolbar>
     </MUIAppBar>
   );
