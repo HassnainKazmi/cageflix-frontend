@@ -12,3 +12,17 @@ export interface Title {
   numVotes: number | null;
   description?: string | null;
 }
+
+export type TitleParams = {
+  skip: number;
+  limit: number;
+  titleType?: string | string[];
+};
+
+export type TitleType =
+  | "tvSeries"
+  | "tvEpisode"
+  | "tvMiniSeries"
+  | "tvSpecial"
+  | "tvMovie"
+  | "movie";

@@ -1,10 +1,18 @@
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";
 import TitleGrid from "../components/TitleGrid";
 import useTitles from "../hooks/useTitles";
+import type { TitleType } from "../types/title";
 
-const Home = () => {
-  const { titles, loading, error } = useTitles();
+const SHOW_TYPES: TitleType[] = [
+  "tvSeries",
+  "tvEpisode",
+  "tvMiniSeries",
+  "tvSpecial",
+  "tvMovie",
+];
 
+const Shows = () => {
+  const { titles, loading, error } = useTitles({ titleType: SHOW_TYPES });
   return (
     <Box
       sx={{
@@ -25,7 +33,7 @@ const Home = () => {
           fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
         }}
       >
-        Nicolas Cage Movies & Shows
+        Nicolas Cage TV Shows & Miniseries
       </Typography>
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
@@ -34,10 +42,13 @@ const Home = () => {
       ) : error ? (
         <Alert severity="error">{error}</Alert>
       ) : (
-        <TitleGrid titles={titles} emptyMessage="No Cageflix titles found." />
+        <TitleGrid
+          titles={titles}
+          emptyMessage="No TV shows or miniseries found."
+        />
       )}
     </Box>
   );
 };
 
-export default Home;
+export default Shows;
