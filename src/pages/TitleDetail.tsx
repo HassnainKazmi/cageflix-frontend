@@ -147,6 +147,14 @@ const TitleDetail = () => {
           {title.numVotes !== null ? `(${title.numVotes} votes)` : ""}
         </Typography>
       </Stack>
+      {title.cast && title.cast.length > 0 && (
+        <Box mb={2}>
+          <Typography variant="body2" color="#8dc6ff">
+            <strong>Co-stars:</strong> {title.cast.slice(0, 8).join(", ")}
+            {title.cast.length > 8 ? "…" : ""}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -5,7 +5,8 @@ export interface SearchResults {
   genres: string[];
   startYear?: string | null;
   cast: string[];
-  averageRating?: number | null;
+  runtimeMinutes: number | null;
+  averageRating: number | null;
   numVotes?: number | null;
   score?: number;
   matchField: string;
