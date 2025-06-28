@@ -3,10 +3,13 @@ import StarIcon from "@mui/icons-material/Star";
 import MovieIcon from "@mui/icons-material/Movie";
 import type { Title } from "../types/title";
 import GenreChips from "./GenreChips";
+import { Link as RouterLink } from "react-router-dom";
 
 const TitleCard = ({ title }: { title: Title }) => {
   return (
     <Card
+      component={RouterLink}
+      to={`/titles/${title.tconst}`}
       variant="outlined"
       sx={{
         width: "100%",
@@ -26,6 +29,7 @@ const TitleCard = ({ title }: { title: Title }) => {
         },
         cursor: "pointer",
         overflow: "hidden",
+        textDecoration: "none",
       }}
     >
       <Box
