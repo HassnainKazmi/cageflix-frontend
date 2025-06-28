@@ -1,9 +1,10 @@
 import { Grid, Box, Typography } from "@mui/material";
 import TitleCard from "./TitleCard";
 import type { Title } from "../types/title";
+import type { SearchResults } from "../types/search";
 
 interface TitleGridProps {
-  titles: Title[];
+  titles: Title[] | SearchResults[];
   emptyMessage?: string;
 }
 

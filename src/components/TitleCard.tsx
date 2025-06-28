@@ -4,8 +4,13 @@ import MovieIcon from "@mui/icons-material/Movie";
 import type { Title } from "../types/title";
 import GenreChips from "./GenreChips";
 import { Link as RouterLink } from "react-router-dom";
+import type { SearchResults } from "../types/search";
 
-const TitleCard = ({ title }: { title: Title }) => {
+interface TitleCardProps {
+  title: Title | SearchResults;
+}
+
+const TitleCard = ({ title }: TitleCardProps) => {
   return (
     <Card
       component={RouterLink}
@@ -31,6 +36,7 @@ const TitleCard = ({ title }: { title: Title }) => {
         overflow: "hidden",
         textDecoration: "none",
       }}
+      aria-label={`Go to details of ${title.primaryTitle}`}
     >
       <Box
         sx={{
@@ -70,10 +76,20 @@ const TitleCard = ({ title }: { title: Title }) => {
         >
           {title.startYear || "Year unknown"} • {title.titleType}
         </Typography>
+        {title?.cast?.length > 0 && (
+          <Typography
+            variant="body2"
+            sx={{ color: "#8dc6ff", fontSize: 13, mb: 1 }}
+            title={title.cast.join(", ")}
+          >
+            <strong>Co-stars:</strong> {title.cast.slice(0, 3).join(", ")}
+            {title.cast.length > 3 ? "…" : ""}
+          </Typography>
+        )}
         <Box sx={{ mb: 1 }}>
           <GenreChips genres={title.genres} />
         </Box>
-        {title.averageRating !== null && (
+        {title.averageRating !== null && title.averageRating !== undefined && (
           <Box
             sx={{ mt: "auto", display: "flex", alignItems: "center", gap: 0.5 }}
           >

@@ -6,24 +6,33 @@ interface UseTitlesOptions {
   skip?: number;
   limit?: number;
   titleType?: string | string[];
+  enabled?: boolean;
+}
+
+interface UseTitlesResult {
+  titles: Title[];
+  loading: boolean;
+  error: string | null;
 }
 
 const useTitles = ({
   skip = 0,
   limit = 24,
   titleType,
-}: UseTitlesOptions = {}) => {
+  enabled = true,
+}: UseTitlesOptions = {}): UseTitlesResult => {
   const [titles, setTitles] = useState<Title[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!enabled) return;
     let ignore = false;
 
     const load = async () => {
       setLoading(true);
       try {
-        const titles = await fetchTitles(skip, limit, titleType);
+        const titles: Title[] = await fetchTitles(skip, limit, titleType);
         if (!ignore) {
           setTitles(titles);
           setError(null);
@@ -39,7 +48,7 @@ const useTitles = ({
     return () => {
       ignore = true;
     };
-  }, [skip, limit, titleType]);
+  }, [skip, limit, titleType, enabled]);
 
   return { titles, loading, error };
 };

@@ -1,9 +1,23 @@
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";
 import TitleGrid from "../components/TitleGrid";
 import useTitles from "../hooks/useTitles";
+import useDebouncedSearch from "../hooks/useDebouncedSearch";
 
-const Home = () => {
-  const { titles, loading, error } = useTitles();
+interface HomeProps {
+  search: string;
+}
+
+const Home = ({ search }: HomeProps) => {
+  const { titles, loading, error } = useTitles({ enabled: !search });
+  const {
+    results: searchResults,
+    loading: searching,
+    error: searchError,
+  } = useDebouncedSearch(search);
+
+  const showTitles = search ? searchResults : titles;
+  const showLoading = search ? searching : loading;
+  const showError = search ? searchError : error;
 
   return (
     <Box
@@ -27,14 +41,21 @@ const Home = () => {
       >
         Nicolas Cage Movies & Shows
       </Typography>
-      {loading ? (
+      {showLoading ? (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
           <CircularProgress size={44} color="primary" />
         </Box>
-      ) : error ? (
-        <Alert severity="error">{error}</Alert>
+      ) : showError ? (
+        <Alert severity="error">{showError}</Alert>
       ) : (
-        <TitleGrid titles={titles} emptyMessage="No Cageflix titles found." />
+        <TitleGrid
+          titles={showTitles}
+          emptyMessage={
+            search
+              ? "No results found for your search."
+              : "No Cageflix titles found."
+          }
+        />
       )}
     </Box>
   );

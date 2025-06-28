@@ -4,6 +4,7 @@ export interface Title {
   primaryTitle: string;
   originalTitle: string;
   isAdult: boolean;
+  cast: string[];
   startYear: string | null;
   endYear: string | null;
   runtimeMinutes: string | null;

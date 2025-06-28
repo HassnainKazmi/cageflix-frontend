@@ -9,7 +9,18 @@ import { Link as RouterLink } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "./SearchBar";
 
-const AppBar = () => {
+interface AppBarProps {
+  search: string;
+  setSearch: (value: string) => void;
+}
+
+const navLinks = [
+  { path: "/", label: "Home" },
+  { path: "/movies", label: "Movies" },
+  { path: "/shows", label: "Shows" },
+];
+
+const AppBar = ({ search, setSearch }: AppBarProps) => {
   return (
     <MUIAppBar position="sticky" color="inherit" elevation={0}>
       <Toolbar>
@@ -33,32 +44,19 @@ const AppBar = () => {
             Cageflix
           </Typography>
         </RouterLink>
-        <Button
-          component={RouterLink}
-          to="/"
-          color="inherit"
-          aria-label="Go to Home page"
-        >
-          Home
-        </Button>
-        <Button
-          component={RouterLink}
-          to="/movies"
-          color="inherit"
-          aria-label="Go to Movies page"
-        >
-          Movies
-        </Button>
-        <Button
-          component={RouterLink}
-          to="/shows"
-          color="inherit"
-          aria-label="Go to Shows page"
-        >
-          Shows
-        </Button>
+        {navLinks.map(({ path, label }) => (
+          <Button
+            key={path}
+            component={RouterLink}
+            to={path}
+            color="inherit"
+            aria-label={`Go to ${label} page`}
+          >
+            {label}
+          </Button>
+        ))}
         <Box sx={{ flexGrow: 1 }} />
-        <SearchBar />
+        <SearchBar search={search} setSearch={setSearch} />
       </Toolbar>
     </MUIAppBar>
   );
