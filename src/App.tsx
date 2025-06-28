@@ -8,16 +8,11 @@ import TitleDetail from "./pages/TitleDetail";
 const theme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#e50914",
-    },
+    primary: { main: "#e50914" },
     background: {
-      default: "'#141414'",
-      paper: "#181818",
+      default: "#181818",
+      paper: "#222",
     },
-  },
-  typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
   },
 });
 

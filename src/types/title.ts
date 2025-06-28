@@ -10,4 +10,5 @@ export interface Title {
   genres: string[];
   averageRating: number | null;
   numVotes: number | null;
+  description?: string | null;
 }
