@@ -74,7 +74,9 @@ const TitleCard = ({ title }: TitleCardProps) => {
           variant="body2"
           sx={{ color: "#aaa", fontWeight: 500, fontSize: 13, mb: 1 }}
         >
-          {title.startYear || "Year unknown"} • {title.titleType}
+          {title.startYear || "Year unknown"}
+          {title.titleType ? ` • ${title.titleType}` : ""}
+          {title.runtimeMinutes ? ` • ${title.runtimeMinutes} min` : ""}
         </Typography>
         {title?.cast?.length > 0 && (
           <Typography
