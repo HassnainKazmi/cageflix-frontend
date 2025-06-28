@@ -5,8 +5,8 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import MovieIcon from "@mui/icons-material/Movie";
 import { Link as RouterLink } from "react-router-dom";
+import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "./SearchBar";
 
 const AppBar = () => {
@@ -37,9 +37,25 @@ const AppBar = () => {
           component={RouterLink}
           to="/"
           color="inherit"
-          sx={{ fontWeight: 600, mx: 1 }}
+          aria-label="Go to Home page"
         >
           Home
+        </Button>
+        <Button
+          component={RouterLink}
+          to="/movies"
+          color="inherit"
+          aria-label="Go to Movies page"
+        >
+          Movies
+        </Button>
+        <Button
+          component={RouterLink}
+          to="/shows"
+          color="inherit"
+          aria-label="Go to Shows page"
+        >
+          Shows
         </Button>
         <Box sx={{ flexGrow: 1 }} />
         <SearchBar />
