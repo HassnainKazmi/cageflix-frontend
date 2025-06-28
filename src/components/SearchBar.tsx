@@ -1,24 +1,15 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { InputBase, IconButton, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
-export default function SearchBar() {
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
-  const location = useLocation();
+interface SearchBarProps {
+  search: string;
+  setSearch: (value: string) => void;
+}
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const trimmed = query.trim();
-    if (trimmed) {
-      const params = new URLSearchParams(location.search);
-      const isSameQuery =
-        location.pathname === "/search" && params.get("text") === trimmed;
-      if (!isSameQuery) {
-        navigate(`/search?text=${encodeURIComponent(trimmed)}`);
-      }
-    }
+const SearchBar = ({ search, setSearch }: SearchBarProps) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -29,7 +20,7 @@ export default function SearchBar() {
         ml: 2,
         display: "flex",
         alignItems: "center",
-        width: { xs: 120, sm: 220, md: 320 },
+        width: { xs: 140, sm: 200, md: 320 },
         bgcolor: "#232323",
         borderRadius: 2,
         boxShadow: "none",
@@ -38,19 +29,36 @@ export default function SearchBar() {
       elevation={0}
     >
       <InputBase
-        sx={{ ml: 1, flex: 1, color: "white" }}
-        placeholder="Titles, people, genres"
-        inputProps={{ "aria-label": "search Cageflix" }}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search titles, genres, actors…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        inputProps={{ "aria-label": "search titles, genres, actors" }}
+        sx={{ color: "white", flex: 1, pl: 1 }}
       />
+      {search && (
+        <IconButton
+          onClick={() => setSearch("")}
+          aria-label="Clear search"
+          title="Clear search"
+          edge="end"
+          size="small"
+          sx={{ color: "#aaa" }}
+          tabIndex={0}
+          type="button"
+        >
+          <ClearIcon fontSize="small" />
+        </IconButton>
+      )}
       <IconButton
         type="submit"
         sx={{ p: "6px", color: "#e50914" }}
-        aria-label="search"
+        aria-label="Search"
+        tabIndex={0}
       >
         <SearchIcon />
       </IconButton>
     </Paper>
   );
-}
+};
+
+export default SearchBar;

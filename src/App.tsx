@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useSearchParams } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import Home from "./pages/Home";
 import SearchResults from "./pages/SearchResults";
@@ -19,12 +19,23 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("search") ?? "";
+
+  const setSearch = (value: string) => {
+    if (value) {
+      setSearchParams({ search: value });
+    } else {
+      setSearchParams({});
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar />
+      <AppBar search={search} setSearch={setSearch} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home search={search} />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/titles/:tconst" element={<TitleDetail />} />
         <Route path="/movies" element={<Movies />} />
