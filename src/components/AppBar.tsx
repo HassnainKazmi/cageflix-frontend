@@ -21,7 +21,7 @@ interface AppBarProps {
 const navLinks = [
   { path: "/", label: "Home" },
   { path: "/movies", label: "Movies" },
-  { path: "/shows", label: "TV Shows" },
+  { path: "/shows", label: "Shows" },
 ];
 
 const AppBar = ({ search, location, navigate }: AppBarProps) => {
