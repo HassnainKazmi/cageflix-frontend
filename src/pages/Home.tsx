@@ -36,42 +36,45 @@ const Home = ({ search }: HomeProps) => {
         py: 4,
       }}
     >
-      <Typography
-        variant="h4"
-        color="white"
-        fontWeight={700}
-        mb={3}
-        letterSpacing={1}
+      <Box
         sx={{
-          textAlign: { xs: "center", md: "left" },
-          fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
+          px: { xs: 1, sm: 2, md: 3 },
+          mx: { xs: 1, sm: 1.5, md: 2 },
         }}
       >
-        Nicolas Cage Movies & Shows
-      </Typography>
-      {showError ? (
-        <Alert severity="error">{showError}</Alert>
-      ) : (
-        <>
-          {search ? (
-            showLoading ? (
-              <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-                <CircularProgress size={44} color="primary" />
-              </Box>
-            ) : (
-              <Box sx={{ px: { xs: 1, sm: 2, md: 3 } }}>
+        <Typography
+          variant="h4"
+          color="white"
+          fontWeight={700}
+          mb={3}
+          letterSpacing={1}
+          sx={{
+            textAlign: { xs: "center", md: "left" },
+            fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
+          }}
+        >
+          Nicolas Cage Movies & Shows
+        </Typography>
+        {showError ? (
+          <Alert severity="error">{showError}</Alert>
+        ) : (
+          <>
+            {search ? (
+              showLoading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+                  <CircularProgress size={44} color="primary" />
+                </Box>
+              ) : (
                 <TitleGrid
                   titles={showTitles}
                   emptyMessage="No results found for your search."
                 />
+              )
+            ) : initialLoading ? (
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+                <CircularProgress size={44} color="primary" />
               </Box>
-            )
-          ) : initialLoading ? (
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-              <CircularProgress size={44} color="primary" />
-            </Box>
-          ) : (
-            <Box sx={{ px: { xs: 1, sm: 2, md: 3 } }}>
+            ) : (
               <InfiniteScroll
                 dataLength={titles.length}
                 next={loadMore}
@@ -98,10 +101,10 @@ const Home = ({ search }: HomeProps) => {
                   emptyMessage="No Cageflix titles found."
                 />
               </InfiniteScroll>
-            </Box>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
