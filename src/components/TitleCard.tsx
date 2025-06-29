@@ -66,18 +66,18 @@ const TitleCard = ({ title }: TitleCardProps) => {
             noWrap
             sx={{ color: "white", fontWeight: 700, fontSize: 16 }}
           >
-            {title.primaryTitle}
+            {title.primaryTitle ? title.primaryTitle : "N/A"}
           </Typography>
         </Tooltip>
         <Typography
           variant="body2"
           sx={{ color: "#aaa", fontWeight: 500, fontSize: 13, mb: 1 }}
         >
-          {title.startYear || "Year unknown"}
+          {title.startYear ? title.startYear : "N/A"}
           {title.titleType ? ` • ${title.titleType}` : ""}
           {title.runtimeMinutes ? ` • ${title.runtimeMinutes} min` : ""}
         </Typography>
-        {title?.cast?.length > 0 && (
+        {title.cast && title.cast.length > 0 ? (
           <Typography
             variant="body2"
             sx={{ color: "#8dc6ff", fontSize: 13, mb: 1 }}
@@ -86,34 +86,49 @@ const TitleCard = ({ title }: TitleCardProps) => {
             <strong>Co-stars:</strong> {title.cast.slice(0, 3).join(", ")}
             {title.cast.length > 3 ? "…" : ""}
           </Typography>
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{ color: "#8dc6ff", fontSize: 13, mb: 1 }}
+          >
+            <strong>Co-stars:</strong> N/A
+          </Typography>
         )}
         <Box sx={{ mb: 1 }}>
-          <GenreChips genres={title.genres} />
+          <GenreChips
+            genres={
+              title.genres && title.genres.length > 0 ? title.genres : ["N/A"]
+            }
+          />
         </Box>
-        {title.averageRating !== null && title.averageRating !== undefined && (
-          <Box
-            sx={{
-              mt: "auto",
-              display: "flex",
-              alignItems: "center",
-              gap: 0.5,
-            }}
+        <Box
+          sx={{
+            mt: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+        >
+          <StarIcon sx={{ fontSize: 16, color: "gold" }} />
+          <Typography
+            variant="caption"
+            sx={{ fontWeight: 700, color: "white" }}
           >
-            <StarIcon sx={{ fontSize: 16, color: "gold" }} />
-            <Typography
-              variant="caption"
-              sx={{ fontWeight: 700, color: "white" }}
-            >
-              {title.averageRating}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ color: "#aaa", fontWeight: 400, ml: 0.5 }}
-            >
-              ({title.numVotes ?? 0})
-            </Typography>
-          </Box>
-        )}
+            {title.averageRating !== null && title.averageRating !== undefined
+              ? title.averageRating
+              : "N/A"}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{ color: "#aaa", fontWeight: 400, ml: 0.5 }}
+          >
+            (
+            {title.numVotes !== null && title.numVotes !== undefined
+              ? title.numVotes
+              : "N/A"}
+            )
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
