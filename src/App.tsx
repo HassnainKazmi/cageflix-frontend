@@ -1,5 +1,11 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useSearchParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import AppBar from "./components/AppBar";
 import Home from "./pages/Home";
 import TitleDetail from "./pages/TitleDetail";
@@ -18,21 +24,15 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const search = searchParams.get("search") ?? "";
-
-  const setSearch = (value: string) => {
-    if (value) {
-      setSearchParams({ search: value });
-    } else {
-      setSearchParams({});
-    }
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar search={search} setSearch={setSearch} />
+      <AppBar search={search} location={location} navigate={navigate} />
       <Routes>
         <Route path="/" element={<Home search={search} />} />
         <Route path="/titles/:tconst" element={<TitleDetail />} />

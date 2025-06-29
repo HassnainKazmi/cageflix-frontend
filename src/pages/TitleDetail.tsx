@@ -80,7 +80,13 @@ const TitleDetail = () => {
     >
       <Button
         startIcon={<ArrowBackIcon />}
-        onClick={() => navigate("/")}
+        onClick={() => {
+          if (window.history.length > 1) {
+            navigate(-1);
+          } else {
+            navigate("/");
+          }
+        }}
         sx={{
           mb: 2,
           color: "#e50914",
