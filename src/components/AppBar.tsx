@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   AppBar as MUIAppBar,
   Box,
@@ -6,13 +7,14 @@ import {
   Button,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import type { Location, NavigateFunction } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "./SearchBar";
-import { useState, useEffect } from "react";
 
 interface AppBarProps {
   search: string;
-  setSearch: (value: string) => void;
+  location: Location;
+  navigate: NavigateFunction;
 }
 
 const navLinks = [
@@ -21,8 +23,8 @@ const navLinks = [
   { path: "/shows", label: "Shows" },
 ];
 
-const AppBar = ({ search, setSearch }: AppBarProps) => {
-  const [input, setInput] = useState(search);
+const AppBar = ({ search, location, navigate }: AppBarProps) => {
+  const [input, setInput] = useState<string>(search);
 
   useEffect(() => {
     setInput(search);
@@ -30,11 +32,32 @@ const AppBar = ({ search, setSearch }: AppBarProps) => {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setSearch(input.trim());
+      const trimmed = input.trim();
+
+      if (location.pathname === "/") {
+        const searchParams = new URLSearchParams(location.search);
+
+        if (trimmed) {
+          searchParams.set("search", trimmed);
+        } else {
+          searchParams.delete("search");
+        }
+        navigate(
+          {
+            pathname: location.pathname,
+            search: searchParams.toString(),
+          },
+          { replace: true }
+        );
+      } else {
+        if (trimmed) {
+          navigate(`/?search=${encodeURIComponent(trimmed)}`);
+        }
+      }
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [input, setSearch]);
+  }, [input, location.pathname, location.search, navigate]);
 
   return (
     <MUIAppBar position="sticky" color="inherit" elevation={0}>
@@ -59,6 +82,7 @@ const AppBar = ({ search, setSearch }: AppBarProps) => {
             Cageflix
           </Typography>
         </RouterLink>
+
         {navLinks.map(({ path, label }) => (
           <Button
             key={path}
@@ -70,6 +94,7 @@ const AppBar = ({ search, setSearch }: AppBarProps) => {
             {label}
           </Button>
         ))}
+
         <Box sx={{ flexGrow: 1 }} />
         <SearchBar input={input} setInput={setInput} />
       </Toolbar>
