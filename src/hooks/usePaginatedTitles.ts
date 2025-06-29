@@ -45,7 +45,16 @@ const usePaginatedTitles = ({
     try {
       const skip = page * pageSize;
       const result = await fetchTitles(skip, pageSize, titleType);
-      setTitles((prev) => [...prev, ...result]);
+      setTitles((prev) => {
+        const mergedTitles = [...prev, ...result];
+        const map = new Map<string, Title>();
+        mergedTitles.forEach((t) => {
+          if (!map.has(t.tconst)) {
+            map.set(t.tconst, t);
+          }
+        });
+        return Array.from(map.values());
+      });
       setHasMore(result.length === pageSize);
       setError(null);
       setPage((prev) => prev + 1);
