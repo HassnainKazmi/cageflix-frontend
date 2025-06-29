@@ -80,18 +80,19 @@ const TitleCard = ({ title }: TitleCardProps) => {
         {title.cast && title.cast.length > 0 ? (
           <Typography
             variant="body2"
-            sx={{ color: "#8dc6ff", fontSize: 13, mb: 1 }}
+            sx={{ color: "#fff", fontSize: 13, mb: 1 }}
             title={title.cast.join(", ")}
           >
-            <strong>Co-stars:</strong> {title.cast.slice(0, 3).join(", ")}
+            <strong style={{ color: "#777" }}>Co-stars:</strong>{" "}
+            {title.cast.slice(0, 3).join(", ")}
             {title.cast.length > 3 ? "…" : ""}
           </Typography>
         ) : (
           <Typography
             variant="body2"
-            sx={{ color: "#8dc6ff", fontSize: 13, mb: 1 }}
+            sx={{ color: "fff", fontSize: 13, mb: 1 }}
           >
-            <strong>Co-stars:</strong> N/A
+            <strong style={{ color: "#777" }}>Co-stars:</strong> N/A
           </Typography>
         )}
         <Box sx={{ mb: 1 }}>
