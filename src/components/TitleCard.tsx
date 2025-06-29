@@ -18,8 +18,7 @@ const TitleCard = ({ title }: TitleCardProps) => {
       variant="outlined"
       sx={{
         width: "100%",
-        maxWidth: 300,
-        minHeight: 270,
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         bgcolor: "#181818",
@@ -53,7 +52,7 @@ const TitleCard = ({ title }: TitleCardProps) => {
 
       <CardContent
         sx={{
-          flex: 1,
+          flexGrow: 1,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
@@ -93,7 +92,12 @@ const TitleCard = ({ title }: TitleCardProps) => {
         </Box>
         {title.averageRating !== null && title.averageRating !== undefined && (
           <Box
-            sx={{ mt: "auto", display: "flex", alignItems: "center", gap: 0.5 }}
+            sx={{
+              mt: "auto",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+            }}
           >
             <StarIcon sx={{ fontSize: 16, color: "gold" }} />
             <Typography

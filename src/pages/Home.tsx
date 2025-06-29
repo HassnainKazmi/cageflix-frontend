@@ -11,10 +11,11 @@ interface HomeProps {
 const PAGE_SIZE = 24;
 
 const Home = ({ search }: HomeProps) => {
-  const { titles, loading, error, hasMore, loadMore } = usePaginatedTitles({
-    pageSize: PAGE_SIZE,
-    enabled: !search,
-  });
+  const { titles, loading, error, hasMore, loadMore, initialLoading } =
+    usePaginatedTitles({
+      pageSize: PAGE_SIZE,
+      enabled: !search,
+    });
 
   const {
     results: searchResults,
@@ -35,62 +36,75 @@ const Home = ({ search }: HomeProps) => {
         py: 4,
       }}
     >
-      <Typography
-        variant="h4"
-        color="white"
-        fontWeight={700}
-        mb={3}
-        letterSpacing={1}
+      <Box
         sx={{
-          ml: { xs: 0, md: 1 },
-          fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
+          px: { xs: 1, sm: 2, md: 3 },
+          mx: { xs: 1, sm: 1.5, md: 2 },
         }}
       >
-        Nicolas Cage Movies & Shows
-      </Typography>
-      {showError ? (
-        <Alert severity="error">{showError}</Alert>
-      ) : (
-        <>
-          {search ? (
-            showLoading ? (
+        <Typography
+          variant="h4"
+          color="white"
+          fontWeight={700}
+          mb={3}
+          letterSpacing={1}
+          sx={{
+            textAlign: { xs: "center", md: "left" },
+            fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
+          }}
+        >
+          Nicolas Cage Movies & Shows
+        </Typography>
+        {showError ? (
+          <Alert severity="error">{showError}</Alert>
+        ) : (
+          <>
+            {search ? (
+              showLoading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+                  <CircularProgress size={44} color="primary" />
+                </Box>
+              ) : (
+                <TitleGrid
+                  titles={showTitles}
+                  emptyMessage="No results found for your search."
+                />
+              )
+            ) : initialLoading ? (
               <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
                 <CircularProgress size={44} color="primary" />
               </Box>
             ) : (
-              <TitleGrid
-                titles={showTitles}
-                emptyMessage="No results found for your search."
-              />
-            )
-          ) : (
-            <InfiniteScroll
-              dataLength={titles.length}
-              next={loadMore}
-              hasMore={hasMore}
-              loader={
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                  <CircularProgress size={32} color="primary" />
-                </Box>
-              }
-              style={{ overflow: "visible" }}
-              scrollThreshold={0.95}
-              endMessage={
-                <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
-                  <Typography variant="body2">
-                    No more Cageflix titles!
-                  </Typography>
-                </Box>
-              }
-            >
-              <TitleGrid
-                titles={titles}
-                emptyMessage="No Cageflix titles found."
-              />
-            </InfiniteScroll>
-          )}
-        </>
-      )}
+              <InfiniteScroll
+                dataLength={titles.length}
+                next={loadMore}
+                hasMore={hasMore}
+                loader={
+                  <Box
+                    sx={{ display: "flex", justifyContent: "center", mt: 4 }}
+                  >
+                    <CircularProgress size={32} color="primary" />
+                  </Box>
+                }
+                style={{ overflow: "visible" }}
+                scrollThreshold={0.95}
+                endMessage={
+                  <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
+                    <Typography variant="body2">
+                      No more Cageflix titles!
+                    </Typography>
+                  </Box>
+                }
+              >
+                <TitleGrid
+                  titles={titles}
+                  emptyMessage="No Cageflix titles found."
+                />
+              </InfiniteScroll>
+            )}
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

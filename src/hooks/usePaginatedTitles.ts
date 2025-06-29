@@ -15,6 +15,7 @@ interface UsePaginatedTitlesResult {
   hasMore: boolean;
   loadMore: () => void;
   reset: () => void;
+  initialLoading: boolean;
 }
 
 const usePaginatedTitles = ({
@@ -27,6 +28,7 @@ const usePaginatedTitles = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
 
   const prevTitleType = useRef<string | string[] | undefined>(titleType);
 
@@ -35,6 +37,7 @@ const usePaginatedTitles = ({
       setTitles([]);
       setPage(0);
       setHasMore(true);
+      setInitialLoading(true);
       prevTitleType.current = titleType;
     }
   }, [titleType]);
@@ -46,9 +49,9 @@ const usePaginatedTitles = ({
       const skip = page * pageSize;
       const result = await fetchTitles(skip, pageSize, titleType);
       setTitles((prev) => {
-        const mergedTitles = [...prev, ...result];
+        const merged = [...prev, ...result];
         const map = new Map<string, Title>();
-        mergedTitles.forEach((t) => {
+        merged.forEach((t) => {
           if (!map.has(t.tconst)) {
             map.set(t.tconst, t);
           }
@@ -62,6 +65,7 @@ const usePaginatedTitles = ({
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
+      setInitialLoading(false);
     }
   }, [page, pageSize, titleType, enabled, loading, hasMore]);
 
@@ -70,6 +74,7 @@ const usePaginatedTitles = ({
     setPage(0);
     setHasMore(true);
     setError(null);
+    setInitialLoading(true);
   };
 
   useEffect(() => {
@@ -79,7 +84,7 @@ const usePaginatedTitles = ({
     }
   }, [titleType, enabled]);
 
-  return { titles, loading, error, hasMore, loadMore, reset };
+  return { titles, loading, error, hasMore, loadMore, reset, initialLoading };
 };
 
 export default usePaginatedTitles;
