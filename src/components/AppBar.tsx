@@ -33,18 +33,17 @@ const AppBar = ({ search, location, navigate }: AppBarProps) => {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      const trimmed = input.trim();
       if (location.pathname === "/") {
         const searchParams = new URLSearchParams(location.search);
-        trimmed
-          ? searchParams.set("search", trimmed)
+        input
+          ? searchParams.set("search", input)
           : searchParams.delete("search");
         navigate(
           { pathname: location.pathname, search: searchParams.toString() },
           { replace: true }
         );
-      } else if (trimmed) {
-        navigate(`/?search=${encodeURIComponent(trimmed)}`);
+      } else if (input) {
+        navigate(`/?search=${encodeURIComponent(input)}`);
       }
     }, 300);
     return () => clearTimeout(handler);

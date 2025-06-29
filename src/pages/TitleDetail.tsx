@@ -155,8 +155,9 @@ const TitleDetail = () => {
       </Stack>
       {title.cast && title.cast.length > 0 && (
         <Box mb={2}>
-          <Typography variant="body2" color="#8dc6ff">
-            <strong>Co-stars:</strong> {title.cast.slice(0, 8).join(", ")}
+          <Typography variant="body2" color="#fff">
+            <strong style={{ color: "#777" }}>Co-stars:</strong>{" "}
+            {title.cast.slice(0, 8).join(", ")}
             {title.cast.length > 8 ? "…" : ""}
           </Typography>
         </Box>
