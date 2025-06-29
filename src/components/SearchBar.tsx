@@ -3,11 +3,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
 interface SearchBarProps {
-  search: string;
-  setSearch: (value: string) => void;
+  input: string;
+  setInput: (value: string) => void;
 }
 
-const SearchBar = ({ search, setSearch }: SearchBarProps) => {
+const SearchBar = ({ input, setInput }: SearchBarProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -30,14 +30,14 @@ const SearchBar = ({ search, setSearch }: SearchBarProps) => {
     >
       <InputBase
         placeholder="Search titles, genres, actors…"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         inputProps={{ "aria-label": "search titles, genres, actors" }}
         sx={{ color: "white", flex: 1, pl: 1 }}
       />
-      {search && (
+      {input && (
         <IconButton
-          onClick={() => setSearch("")}
+          onClick={() => setInput("")}
           aria-label="Clear search"
           title="Clear search"
           edge="end"

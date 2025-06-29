@@ -8,6 +8,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "./SearchBar";
+import { useState, useEffect } from "react";
 
 interface AppBarProps {
   search: string;
@@ -21,6 +22,20 @@ const navLinks = [
 ];
 
 const AppBar = ({ search, setSearch }: AppBarProps) => {
+  const [input, setInput] = useState(search);
+
+  useEffect(() => {
+    setInput(search);
+  }, [search]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearch(input.trim());
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [input, setSearch]);
+
   return (
     <MUIAppBar position="sticky" color="inherit" elevation={0}>
       <Toolbar>
@@ -56,7 +71,7 @@ const AppBar = ({ search, setSearch }: AppBarProps) => {
           </Button>
         ))}
         <Box sx={{ flexGrow: 1 }} />
-        <SearchBar search={search} setSearch={setSearch} />
+        <SearchBar input={input} setInput={setInput} />
       </Toolbar>
     </MUIAppBar>
   );

@@ -1,7 +1,7 @@
 import axiosInstance from "./axios";
 import { isAxiosError } from "axios";
 
-export const fetchFuzzySearch = async (text: string) => {
+export const fetchSearchResults = async (text: string) => {
   try {
     const response = await axiosInstance.get("/search", { params: { text } });
     return response.data;

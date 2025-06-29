@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchFuzzySearch } from "../api/search";
+import { fetchSearchResults } from "../api/search";
 import type { SearchResults } from "../types/search";
 
 interface UseDebouncedSearchResult {
@@ -29,7 +29,7 @@ const useDebouncedSearch = (
 
     const doSearch = async () => {
       try {
-        const results = await fetchFuzzySearch(search);
+        const results: SearchResults[] = await fetchSearchResults(search);
         if (!ignore) {
           setResults(results);
           setError(null);
