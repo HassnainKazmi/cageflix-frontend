@@ -1,14 +1,21 @@
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
 import TitleGrid from "../components/TitleGrid";
-import useTitles from "../hooks/useTitles";
+import usePaginatedTitles from "../hooks/usePaginatedTitles";
 import useDebouncedSearch from "../hooks/useDebouncedSearch";
 
 interface HomeProps {
   search: string;
 }
 
+const PAGE_SIZE = 24;
+
 const Home = ({ search }: HomeProps) => {
-  const { titles, loading, error } = useTitles({ enabled: !search });
+  const { titles, loading, error, hasMore, loadMore } = usePaginatedTitles({
+    pageSize: PAGE_SIZE,
+    enabled: !search,
+  });
+
   const {
     results: searchResults,
     loading: searching,
@@ -41,21 +48,48 @@ const Home = ({ search }: HomeProps) => {
       >
         Nicolas Cage Movies & Shows
       </Typography>
-      {showLoading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-          <CircularProgress size={44} color="primary" />
-        </Box>
-      ) : showError ? (
+      {showError ? (
         <Alert severity="error">{showError}</Alert>
       ) : (
-        <TitleGrid
-          titles={showTitles}
-          emptyMessage={
-            search
-              ? "No results found for your search."
-              : "No Cageflix titles found."
-          }
-        />
+        <>
+          {search ? (
+            showLoading ? (
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+                <CircularProgress size={44} color="primary" />
+              </Box>
+            ) : (
+              <TitleGrid
+                titles={showTitles}
+                emptyMessage="No results found for your search."
+              />
+            )
+          ) : (
+            <InfiniteScroll
+              dataLength={titles.length}
+              next={loadMore}
+              hasMore={hasMore}
+              loader={
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+                  <CircularProgress size={32} color="primary" />
+                </Box>
+              }
+              style={{ overflow: "visible" }}
+              scrollThreshold={0.95}
+              endMessage={
+                <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
+                  <Typography variant="body2">
+                    No more Cageflix titles!
+                  </Typography>
+                </Box>
+              }
+            >
+              <TitleGrid
+                titles={titles}
+                emptyMessage="No Cageflix titles found."
+              />
+            </InfiniteScroll>
+          )}
+        </>
       )}
     </Box>
   );
