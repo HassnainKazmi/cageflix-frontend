@@ -1,12 +1,17 @@
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
 import TitleGrid from "../components/TitleGrid";
-import useTitles from "../hooks/useTitles";
+import usePaginatedTitles from "../hooks/usePaginatedTitles";
 import type { TitleType } from "../types/title";
 
 const MOVIE_TYPE: TitleType = "movie";
+const PAGE_SIZE = 24;
 
 const Movies = () => {
-  const { titles, loading, error } = useTitles({ titleType: MOVIE_TYPE });
+  const { titles, error, hasMore, loadMore } = usePaginatedTitles({
+    titleType: MOVIE_TYPE,
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <Box
@@ -30,15 +35,28 @@ const Movies = () => {
       >
         Nicolas Cage Movies
       </Typography>
-
-      {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-          <CircularProgress size={44} color="primary" />
-        </Box>
-      ) : error ? (
+      {error ? (
         <Alert severity="error">{error}</Alert>
       ) : (
-        <TitleGrid titles={titles} emptyMessage="No movies found." />
+        <InfiniteScroll
+          dataLength={titles.length}
+          next={loadMore}
+          hasMore={hasMore}
+          loader={
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+              <CircularProgress size={32} color="primary" />
+            </Box>
+          }
+          style={{ overflow: "visible" }}
+          scrollThreshold={0.95}
+          endMessage={
+            <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
+              <Typography variant="body2">No more movies!</Typography>
+            </Box>
+          }
+        >
+          <TitleGrid titles={titles} emptyMessage="No movies found." />
+        </InfiniteScroll>
       )}
     </Box>
   );
