@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
-import {
-  AppBar as MUIAppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Button,
-} from "@mui/material";
+import { AppBar as MUIAppBar, Toolbar, Box, Button } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import type { Location, NavigateFunction } from "react-router-dom";
-import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "./SearchBar";
+import logo from "../assets/cageflix-logo.png";
 
 interface AppBarProps {
   search: string;
@@ -20,7 +14,7 @@ interface AppBarProps {
 const navLinks = [
   { path: "/", label: "Home" },
   { path: "/movies", label: "Movies" },
-  { path: "/shows", label: "Shows" },
+  { path: "/shows", label: "TV Shows" },
 ];
 
 const AppBar = ({ search, location, navigate }: AppBarProps) => {
@@ -33,7 +27,6 @@ const AppBar = ({ search, location, navigate }: AppBarProps) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       const trimmed = input.trim();
-
       if (location.pathname === "/") {
         const searchParams = new URLSearchParams(location.search);
 
@@ -55,48 +48,85 @@ const AppBar = ({ search, location, navigate }: AppBarProps) => {
         }
       }
     }, 300);
-
     return () => clearTimeout(handler);
   }, [input, location.pathname, location.search, navigate]);
 
   return (
-    <MUIAppBar position="sticky" color="inherit" elevation={0}>
-      <Toolbar>
+    <MUIAppBar
+      position="sticky"
+      elevation={0}
+      sx={{
+        bgcolor: "#141414",
+        borderBottom: "none",
+        minHeight: 64,
+        px: { xs: 1, md: 4 },
+        boxShadow: "none",
+      }}
+    >
+      <Toolbar
+        sx={{
+          minHeight: 72,
+          display: "flex",
+          alignItems: "center",
+          px: 0,
+        }}
+      >
         <RouterLink
           to="/"
           style={{
-            textDecoration: "none",
-            color: "inherit",
             display: "flex",
             alignItems: "center",
+            textDecoration: "none",
+            marginRight: 36,
           }}
         >
-          <MovieIcon sx={{ mr: 1, color: "primary.main" }} />
-          <Typography
-            variant="h6"
-            noWrap
-            fontWeight="bold"
-            color="primary"
-            sx={{ letterSpacing: 1 }}
-          >
-            Cageflix
-          </Typography>
+          <img
+            src={logo}
+            alt="Cageflix Logo"
+            style={{
+              height: "80px",
+              width: "120px",
+              objectFit: "fill",
+              display: "block",
+            }}
+          />
         </RouterLink>
-
-        {navLinks.map(({ path, label }) => (
-          <Button
-            key={path}
-            component={RouterLink}
-            to={path}
-            color="inherit"
-            aria-label={`Go to ${label} page`}
-          >
-            {label}
-          </Button>
-        ))}
-
+        <Box sx={{ display: "flex", gap: 3, mr: 3 }}>
+          {navLinks.map(({ path, label }) => (
+            <Button
+              key={path}
+              component={RouterLink}
+              to={path}
+              color="inherit"
+              sx={{
+                fontWeight: 500,
+                fontSize: "1.08rem",
+                color: "#fff",
+                px: 0,
+                py: 0.5,
+                textTransform: "none",
+                minWidth: 0,
+                "&:hover": {
+                  color: "#e50914",
+                  background: "transparent",
+                },
+              }}
+              aria-label={`Go to ${label} page`}
+            >
+              {label}
+            </Button>
+          ))}
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
-        <SearchBar input={input} setInput={setInput} />
+        <Box
+          sx={{
+            minWidth: { xs: 140, sm: 220, md: 260 },
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <SearchBar input={input} setInput={setInput} />
+        </Box>
       </Toolbar>
     </MUIAppBar>
   );
