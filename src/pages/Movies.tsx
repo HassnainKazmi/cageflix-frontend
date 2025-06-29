@@ -8,10 +8,11 @@ const MOVIE_TYPE: TitleType = "movie";
 const PAGE_SIZE = 24;
 
 const Movies = () => {
-  const { titles, error, hasMore, loadMore } = usePaginatedTitles({
-    titleType: MOVIE_TYPE,
-    pageSize: PAGE_SIZE,
-  });
+  const { titles, error, hasMore, loadMore, initialLoading } =
+    usePaginatedTitles({
+      titleType: MOVIE_TYPE,
+      pageSize: PAGE_SIZE,
+    });
 
   return (
     <Box
@@ -37,6 +38,10 @@ const Movies = () => {
       </Typography>
       {error ? (
         <Alert severity="error">{error}</Alert>
+      ) : initialLoading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+          <CircularProgress size={44} color="primary" />
+        </Box>
       ) : (
         <InfiniteScroll
           dataLength={titles.length}

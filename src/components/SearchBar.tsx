@@ -17,10 +17,10 @@ const SearchBar = ({ input, setInput }: SearchBarProps) => {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        ml: 2,
         display: "flex",
         alignItems: "center",
-        width: { xs: 140, sm: 200, md: 320 },
+        width: "100%",
+        maxWidth: 400,
         bgcolor: "#232323",
         borderRadius: 2,
         boxShadow: "none",

@@ -11,10 +11,11 @@ interface HomeProps {
 const PAGE_SIZE = 24;
 
 const Home = ({ search }: HomeProps) => {
-  const { titles, loading, error, hasMore, loadMore } = usePaginatedTitles({
-    pageSize: PAGE_SIZE,
-    enabled: !search,
-  });
+  const { titles, loading, error, hasMore, loadMore, initialLoading } =
+    usePaginatedTitles({
+      pageSize: PAGE_SIZE,
+      enabled: !search,
+    });
 
   const {
     results: searchResults,
@@ -42,7 +43,7 @@ const Home = ({ search }: HomeProps) => {
         mb={3}
         letterSpacing={1}
         sx={{
-          ml: { xs: 0, md: 1 },
+          textAlign: { xs: "center", md: "left" },
           fontSize: { xs: "1.6rem", sm: "2.2rem", md: "2.6rem" },
         }}
       >
@@ -58,36 +59,46 @@ const Home = ({ search }: HomeProps) => {
                 <CircularProgress size={44} color="primary" />
               </Box>
             ) : (
-              <TitleGrid
-                titles={showTitles}
-                emptyMessage="No results found for your search."
-              />
+              <Box sx={{ px: { xs: 1, sm: 2, md: 3 } }}>
+                <TitleGrid
+                  titles={showTitles}
+                  emptyMessage="No results found for your search."
+                />
+              </Box>
             )
+          ) : initialLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+              <CircularProgress size={44} color="primary" />
+            </Box>
           ) : (
-            <InfiniteScroll
-              dataLength={titles.length}
-              next={loadMore}
-              hasMore={hasMore}
-              loader={
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                  <CircularProgress size={32} color="primary" />
-                </Box>
-              }
-              style={{ overflow: "visible" }}
-              scrollThreshold={0.95}
-              endMessage={
-                <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
-                  <Typography variant="body2">
-                    No more Cageflix titles!
-                  </Typography>
-                </Box>
-              }
-            >
-              <TitleGrid
-                titles={titles}
-                emptyMessage="No Cageflix titles found."
-              />
-            </InfiniteScroll>
+            <Box sx={{ px: { xs: 1, sm: 2, md: 3 } }}>
+              <InfiniteScroll
+                dataLength={titles.length}
+                next={loadMore}
+                hasMore={hasMore}
+                loader={
+                  <Box
+                    sx={{ display: "flex", justifyContent: "center", mt: 4 }}
+                  >
+                    <CircularProgress size={32} color="primary" />
+                  </Box>
+                }
+                style={{ overflow: "visible" }}
+                scrollThreshold={0.95}
+                endMessage={
+                  <Box sx={{ py: 3, textAlign: "center", color: "#888" }}>
+                    <Typography variant="body2">
+                      No more Cageflix titles!
+                    </Typography>
+                  </Box>
+                }
+              >
+                <TitleGrid
+                  titles={titles}
+                  emptyMessage="No Cageflix titles found."
+                />
+              </InfiniteScroll>
+            </Box>
           )}
         </>
       )}

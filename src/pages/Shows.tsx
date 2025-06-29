@@ -14,10 +14,11 @@ const SHOW_TYPES: TitleType[] = [
 const PAGE_SIZE = 24;
 
 const Shows = () => {
-  const { titles, error, hasMore, loadMore } = usePaginatedTitles({
-    titleType: SHOW_TYPES,
-    pageSize: PAGE_SIZE,
-  });
+  const { titles, error, hasMore, loadMore, initialLoading } =
+    usePaginatedTitles({
+      titleType: SHOW_TYPES,
+      pageSize: PAGE_SIZE,
+    });
 
   return (
     <Box
@@ -43,6 +44,10 @@ const Shows = () => {
       </Typography>
       {error ? (
         <Alert severity="error">{error}</Alert>
+      ) : initialLoading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+          <CircularProgress size={44} color="primary" />
+        </Box>
       ) : (
         <InfiniteScroll
           dataLength={titles.length}
