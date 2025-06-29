@@ -67,15 +67,16 @@ const TitleDetail = () => {
   return (
     <Box
       sx={{
-        px: { xs: 2, sm: 5 },
+        maxWidth: 720,
+        mx: { xs: "12px", sm: "24px", md: "auto" },
+        px: { xs: 2, sm: 4, md: 5 },
         py: 4,
         minHeight: "80vh",
         bgcolor: "#181818",
         color: "white",
-        maxWidth: 720,
-        mx: "auto",
         borderRadius: 3,
         boxShadow: "0 8px 32px 0 rgba(0,0,0,0.22)",
+        boxSizing: "border-box",
       }}
     >
       <Button
