@@ -27,7 +27,6 @@ const Shows = () => {
         bgcolor: "#181818",
         px: { xs: 0.5, sm: 2, md: 3 },
         py: 4,
-        pt: { xs: 7, sm: 9 },
       }}
     >
       <Box
