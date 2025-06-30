@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import TitleDetail from "./pages/TitleDetail";
 import Movies from "./pages/Movies";
 import Shows from "./pages/Shows";
+import ScrollToTop from "./components/ScrollToTop";
 
 const theme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ScrollToTop />
       <AppBar search={search} location={location} navigate={navigate} />
       <Routes>
         <Route path="/" element={<Home search={search} />} />
