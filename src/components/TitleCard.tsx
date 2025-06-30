@@ -90,7 +90,7 @@ const TitleCard = ({ title }: TitleCardProps) => {
         ) : (
           <Typography
             variant="body2"
-            sx={{ color: "fff", fontSize: 13, mb: 1 }}
+            sx={{ color: "#fff", fontSize: 13, mb: 1 }}
           >
             <strong style={{ color: "#777" }}>Co-stars:</strong> N/A
           </Typography>
